@@ -1,3 +1,4 @@
+
 * {
   box-sizing: border-box;
 }
@@ -16,11 +17,12 @@ a {
 
 /* Landing Page */
 
-.landing-page {
+.background-image {
   min-height: 100vh;
   background-image: url("https://images.unsplash.com/photo-1497250681960-ef046c08a56e?auto=format&fit=crop&w=1600&q=80");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .landing-overlay {
@@ -46,8 +48,10 @@ a {
   padding: 14px 28px;
   background: #ffffff;
   color: #176b36;
+  border: none;
   border-radius: 8px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 /* Navbar */
@@ -81,7 +85,7 @@ a {
 
 /* About */
 
-.about-section {
+.about-us-container {
   max-width: 700px;
   margin-top: 30px;
   padding: 25px;
@@ -90,7 +94,7 @@ a {
   border-radius: 12px;
 }
 
-.about-section h2 {
+.about-us-container h2 {
   color: #176b36;
 }
 
@@ -115,7 +119,7 @@ a {
   padding-bottom: 10px;
 }
 
-.product-grid {
+.product-list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 25px;
@@ -261,7 +265,7 @@ a {
 /* Responsive */
 
 @media (max-width: 800px) {
-  .product-grid {
+  .product-list {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -275,7 +279,7 @@ a {
 }
 
 @media (max-width: 550px) {
-  .product-grid {
+  .product-list {
     grid-template-columns: 1fr;
   }
 
@@ -291,3 +295,4 @@ a {
     font-size: 40px;
   }
 }
+

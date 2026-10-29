@@ -1,5 +1,7 @@
+
+
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../redux/CartSlice";
+import { addItem } from "../redux/CartSlice";
 import { Link } from "react-router-dom";
 
 const plants = [
@@ -45,7 +47,6 @@ const plants = [
     price: 299,
     image: "https://images.unsplash.com/photo-1593482892290-f54927ae2f1c?auto=format&fit=crop&w=500&q=80",
   },
-
   {
     id: 7,
     name: "Monstera",
@@ -88,7 +89,6 @@ const plants = [
     price: 749,
     image: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=500&q=80",
   },
-
   {
     id: 13,
     name: "Snake Plant",
@@ -165,7 +165,7 @@ function ProductList() {
           <section key={category} className="category-section">
             <h2>{category}</h2>
 
-            <div className="product-grid">
+            <div className="product-list">
               {plants
                 .filter((plant) => plant.category === category)
                 .map((plant) => {
@@ -176,14 +176,12 @@ function ProductList() {
                   return (
                     <div className="product-card" key={plant.id}>
                       <img src={plant.image} alt={plant.name} />
-
                       <h3>{plant.name}</h3>
-
                       <p>₹{plant.price}</p>
 
                       <button
                         disabled={alreadyAdded}
-                        onClick={() => dispatch(addToCart(plant))}
+                        onClick={() => dispatch(addItem(plant))}
                       >
                         {alreadyAdded ? "Added to Cart" : "Add to Cart"}
                       </button>

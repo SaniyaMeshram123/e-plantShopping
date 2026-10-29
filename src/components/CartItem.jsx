@@ -1,13 +1,11 @@
+
 import { useDispatch, useSelector } from "react-redux";
-import {
-  increaseQuantity,
-  decreaseQuantity,
-  removeFromCart,
-} from "../redux/CartSlice";
-import { Link } from "react-router-dom";
+import { removeItem, updateQuantity } from "../redux/CartSlice";
+import { Link, useNavigate } from "react-router-dom";
 
 function CartItem() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
 
   const totalAmount = cartItems.reduce(
@@ -15,8 +13,35 @@ function CartItem() {
     0
   );
 
+  const handleIncrement = (item) => {
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: item.quantity + 1,
+      })
+    );
+  };
+
+  const handleDecrement = (item) => {
+    dispatch(
+      updateQuantity({
+        id: item.id,
+        quantity: item.quantity - 1,
+      })
+    );
+  };
+
+  const handleRemove = (item) => {
+    dispatch(removeItem(item.id));
+  };
+
+  const handleContinueShopping = (e) => {
+    e.preventDefault();
+    navigate("/plants");
+  };
+
   return (
-    <div>
+    <div className="cart-container">
       <nav className="navbar">
         <Link to="/" className="logo">
           Paradise Nursery
@@ -25,7 +50,12 @@ function CartItem() {
         <div className="nav-links">
           <Link to="/">Home</Link>
           <Link to="/plants">Plants</Link>
-          <Link to="/cart">🛒 Cart</Link>
+          <Link to="/cart">
+            🛒 Cart ({cartItems.reduce(
+              (total, item) => total + item.quantity,
+              0
+            )})
+          </Link>
         </div>
       </nav>
 
@@ -35,9 +65,12 @@ function CartItem() {
         {cartItems.length === 0 ? (
           <div className="empty-cart">
             <h2>Your cart is empty</h2>
-            <Link to="/plants" className="continue-button">
+            <button
+              className="get-started-button"
+              onClick={handleContinueShopping}
+            >
               Continue Shopping
-            </Link>
+            </button>
           </div>
         ) : (
           <>
@@ -48,35 +81,26 @@ function CartItem() {
                 <div className="cart-details">
                   <h2>{item.name}</h2>
                   <p>Unit Price: ₹{item.price}</p>
+                  <p>Quantity: {item.quantity}</p>
                   <p>
-                    Total: ₹{item.price * item.quantity}
+                    Item Total: ₹{item.price * item.quantity}
                   </p>
 
                   <div className="quantity-controls">
-                    <button
-                      onClick={() =>
-                        dispatch(decreaseQuantity(item.id))
-                      }
-                    >
+                    <button onClick={() => handleDecrement(item)}>
                       −
                     </button>
 
                     <span>{item.quantity}</span>
 
-                    <button
-                      onClick={() =>
-                        dispatch(increaseQuantity(item.id))
-                      }
-                    >
+                    <button onClick={() => handleIncrement(item)}>
                       +
                     </button>
                   </div>
 
                   <button
                     className="delete-button"
-                    onClick={() =>
-                      dispatch(removeFromCart(item.id))
-                    }
+                    onClick={() => handleRemove(item)}
                   >
                     Delete
                   </button>
@@ -94,9 +118,12 @@ function CartItem() {
                 Checkout
               </button>
 
-              <Link to="/plants" className="continue-button">
+              <button
+                className="get-started-button"
+                onClick={handleContinueShopping}
+              >
                 Continue Shopping
-              </Link>
+              </button>
             </div>
           </>
         )}
@@ -106,3 +133,4 @@ function CartItem() {
 }
 
 export default CartItem;
+
